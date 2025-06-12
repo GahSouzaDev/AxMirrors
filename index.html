@@ -3,7 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="AxMirrors - Espelhos artesanais com LED personalizados. Transforme sua casa com peças únicas. Enviamos para todo o estado de São Paulo.">
+    <meta name="keywords" content="espelhos, espelhos com led, espelhos artesanais, decoração, iluminação, axmirrors, espelhos personalizados">
+    <meta name="author" content="AxMirrors">
+
     <title>AxMirrors | Espelhos Artesanais com LED</title>
+    
+     <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo sem fundo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/logo sem fundo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/logo sem fundo.png">
+    <link rel="manifest" href="/site.webmanifest">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Variáveis e Reset */
@@ -652,6 +665,11 @@
                 padding: 60px 0;
             }
         }
+        .logo-img {
+    max-width: 25%; /* A imagem não ultrapassa a largura do contêiner */
+    height: auto; /* Mantém a proporção da imagem */
+    display: block; /* Remove espaços indesejados abaixo da imagem */
+}
     </style>
 </head>
 <body>
@@ -660,7 +678,7 @@
         <div class="container header-container">
             <a href="#" class="logo">
                 <i class="fas fa-mirror"></i>
-                AxMirrors
+                <img src="img/logo sem fundo.png" alt="" class="logo-img">
             </a>
             
             <div class="mobile-menu">
@@ -1038,90 +1056,101 @@
         </div>
     </footer>
 
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        // Menu Mobile
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const navMenu = document.querySelector('.nav-menu');
-        
-        mobileMenu.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            mobileMenu.querySelector('i').classList.toggle('fa-bars');
-            mobileMenu.querySelector('i').classList.toggle('fa-times');
+        emailjs.init('0hc3QrXNKkrtHHKnY'); // Substitua pelo seu Public Key do EmailJS
+    </script>
+
+  <script>
+    // Menu Mobile
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    mobileMenu.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        mobileMenu.querySelector('i').classList.toggle('fa-bars');
+        mobileMenu.querySelector('i').classList.toggle('fa-times');
+    });
+
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            mobileMenu.querySelector('i').classList.add('fa-bars');
+            mobileMenu.querySelector('i').classList.remove('fa-times');
         });
-        
-        // Fechar menu ao clicar em um item
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                mobileMenu.querySelector('i').classList.add('fa-bars');
-                mobileMenu.querySelector('i').classList.remove('fa-times');
-            });
+    });
+
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            item.classList.toggle('active');
         });
-        
-        // FAQ Accordion
-        const faqItems = document.querySelectorAll('.faq-item');
-        
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            
-            question.addEventListener('click', () => {
-                item.classList.toggle('active');
-            });
-        });
-        
-        // Formulário de Contato
-        const contactForm = document.getElementById('form-contato');
-        
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Aqui normalmente enviaria os dados para o servidor
-            // Vamos simular um envio bem-sucedido
+    });
+
+    // Envio do formulário com EmailJS (apenas para você)
+    const contactForm = document.getElementById('form-contato');
+    const btnSubmit = document.getElementById('btn-submit'); // botão opcional com esse ID
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (btnSubmit) btnSubmit.value = 'Enviando...';
+
+        const serviceID = 'service_jzz6s8r';
+        const templateID = 'template_i9gfxzg';
+
+        try {
+            await emailjs.sendForm(serviceID, templateID, contactForm);
             alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
             contactForm.reset();
+            if (btnSubmit) btnSubmit.value = 'Enviar';
+        } catch (err) {
+            console.error('Erro ao enviar:', err);
+            alert('Ocorreu um erro ao enviar a mensagem. Tente novamente.');
+            if (btnSubmit) btnSubmit.value = 'Enviar';
+        }
+    });
+
+    // Scroll suave para links internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
         });
+    });
+
+    // Classe ativa no menu ao rolar
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-menu a');
         
-        // Scroll suave para links internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
         });
-        
-        // Adicionar classe ativa ao menu conforme scroll
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-menu a');
-            
-            let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                if(pageYOffset >= (sectionTop - 100)) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if(link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
         });
-    </script>
+    });
+</script>
+
+
 </body>
 </html>
